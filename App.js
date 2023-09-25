@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Canvas } from '@react-three/fiber'
+import Shoe from './components/Shoe'
+import { Suspense } from 'react'
+import { useAnimatedSensor, SensorType } from 'react-native-reanimated'
 
 export default function App() {
+  const animatedSensor = useAnimatedSensor(SensorType.GYROSCOPE, {
+    interval: 100,
+  })
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <Canvas>
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+      <Suspense fallback={null}>
+        <Shoe animatedSensor={animatedSensor} />
+      </Suspense>
+    </Canvas>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
